@@ -1,6 +1,7 @@
 # https://leetcode.com/problems/maximum-subarray
 class Solution:
-    # re-uses algo from "best-time-to-buy-and-sell-stock"
+    # re-uses my algo from "best-time-to-buy-and-sell-stock"
+    # more lines than Kadane's algo, but feels more intuitive than Kadane's
     def maxSubArray(self, nums: list[int]) -> int:
         # rt = running total
         rt: int = 0
