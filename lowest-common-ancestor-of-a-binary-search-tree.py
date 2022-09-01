@@ -1,5 +1,3 @@
-# https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
-
 # Definition for a binary tree node.
 class TreeNode:
     def __init__(self, x):
@@ -8,6 +6,7 @@ class TreeNode:
         self.right = None
 
 
+# https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
 class Solution:
     # answer simplicity courtesy of Richard
     def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
