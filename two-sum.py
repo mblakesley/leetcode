@@ -1,3 +1,4 @@
+# https://leetcode.com/problems/two-sum
 class Solution:
     def twoSum(self, nums: list[int], target: int) -> list[int]:
         # a dict of old vals & their indexes

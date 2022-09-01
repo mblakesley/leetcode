@@ -1,3 +1,4 @@
+# https://leetcode.com/problems/best-time-to-buy-and-sell-stock
 class Solution:
     # generalized solution
     # can handle negative prices, also min's losses if applicable

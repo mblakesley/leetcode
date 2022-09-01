@@ -9,6 +9,7 @@ class TreeNode:
         self.right = right
 
 
+# https://leetcode.com/problems/invert-binary-tree
 class Solution:
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         if not root:
