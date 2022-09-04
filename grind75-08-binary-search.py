@@ -5,7 +5,7 @@ class Solution:
         i_min: int = 0
         i_max: int = len(nums) - 1
         while i_min <= i_max:
-            i_half: int = i_min + (i_max - i_min)//2
+            i_half: int = (i_max + i_min) // 2
             num: int = nums[i_half]
             if target == num:
                 return i_half
