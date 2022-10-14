@@ -17,3 +17,9 @@ class Solution:
                     result = int(int1 / int2)
             int_stack.append(result)
         return int_stack.pop()
+
+    # I had to include this: Harold's ridiculous 1-liner-ish using eval(), plus a stack within a list comprehension
+    def evalRPN(self, tokens):
+        stack = []
+        [stack.append(int(hackme) if hackme[-1].isdigit() else int(eval(f"{stack.pop(-2)} {hackme} {stack.pop()}"))) for hackme in tokens]
+        return stack.pop()
