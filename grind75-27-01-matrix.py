@@ -11,7 +11,7 @@ class Solution:
                 else:
                     remaining.add((i, j))
         while queue:
-            i, j = queue.pop(0)
+            i, j = queue.pop(0)  # BFS
             val = mat[i][j]
             for x, y in ((i+1, j), (i, j+1), (i-1, j), (i, j-1)):
                 if (x, y) in remaining:
