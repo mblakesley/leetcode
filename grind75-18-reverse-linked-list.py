@@ -14,7 +14,7 @@ class Solution:
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         rev_prev = None
         while head:
-            rev_head = ListNode(head.val, rev_prev)
+            rev_head = ListNode(val=head.val, next=rev_prev)
             head = head.next
             rev_prev = rev_head
         return rev_prev
