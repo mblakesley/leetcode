@@ -1,49 +1,55 @@
 # https://leetcode.com/problems/3sum/
 class Solution:
-    # O(n^2) speed
+    # O(n^2) on speed
     def threeSum(self, nums: list[int]) -> set[tuple]:
         target_sum = 0
-        counter = {}  # num -> count, BUT count stops incrementing at max of 3
+        counter = {}  # num -> count (count stops incrementing at max of 3)
         triplets = set()
-        for i, num_i in enumerate(nums):
-            count = counter.get(num_i, 0)
-            if count == 3:
+        for i, x in enumerate(nums):
+            # skip nums if we've seen them twice before (only 0's can appear thrice - see below)
+            count = counter.get(x, 0)
+            counter[x] = count + 1
+            if count > 2:
                 continue
-            counter[num_i] = count + 1
+
             # 2-sum problem
-            couples = self.two_sum(nums=nums[0:i], target_sum=target_sum - num_i)
-            for num_j, num_k in couples:
-                triplets.add(tuple(sorted((num_i, num_j, num_k))))
+            complements = {}  # {complement: old y}
+            for y in nums[0:i]:
+                if y in complements:
+                    # this inner loop works by looking backwards, so curr y is actually z, old y is y
+                    triplets |= {tuple(sorted((x, complements[y], y)))}
+                complements[target_sum - x - y] = y
+
+        if counter.get(0, 0) >= 3:
+            triplets |= {(0, 0, 0)}
         return triplets
 
-    def two_sum(self, nums: list[int], target_sum: int) -> set[tuple]:
-        couples = set()
-        complements = set()
-        for x in nums:
-            y = target_sum - x
-            if y in complements:
-                couples.add(tuple(sorted((x, y))))
-            complements.add(x)
-        return couples
+    # O(n^2 + 2n) on speed BUT uses a weird approach to better filter out extra nums
+    def three_sum_no_sorting(self, nums: list[int]) -> set[tuple]:
+        # first, compress $nums down to singles & pairs (but don't sort). [2,1,2,3,2] -> [2,2,1,3]
+        # we don't care what the absolute order is as long as there is one. this eliminates the need to sort triplets.
+        # this process is O(2*n) on speed
+        counter = {}
+        for num in nums:
+            counter[num] = counter.get(num, 0) + 1
 
-    # O(n^2) but monolithic & messy
-    def three_sum_monolithic(self, nums: list[int]) -> set[tuple[int]]:
+        filtered_nums = []
+        for num, count in counter.items():
+            filtered_nums += [num] * min(count, 2)
+
+        # now, do 3 sum without sorting! O(n^2)
+        triplets = set() if counter.get(0, 0) < 3 else {(0, 0, 0)}  # special case: three 0's
         target_sum = 0
-        past_singles = {}  # num -> (first index, count), BUT count stops incrementing at max of 3
-        triplets = set()
-        # i leads, j follows
-        for i, num_i in enumerate(nums):
-            first_index, count = past_singles.get(num_i, (i, 0))
-            if count == 3:
-                continue
-            for j in range(0, i):
-                num_j = nums[j]
-                num_k = target_sum - num_i - num_j
-                # 2nd check here: j can re-assume old singles, so make sure num_k's index != j
-                if num_k in past_singles and past_singles[num_k][0] != j:
-                    triplets.add(tuple(sorted([num_i, num_j, num_k])))
-            past_singles[num_i] = (first_index, count + 1)
+        for i, x in enumerate(filtered_nums):
+            # 2 sum problem
+            complements = {}  # {complement: old y}
+            for y in filtered_nums[i+1:]:
+                if y in complements:
+                    triplets |= {(x, complements[y], y)}  # this inner loop looks backwards, so old y is y, new y is z
+                else:
+                    complements[target_sum - x - y] = y
         return triplets
+
 
     # super naive O(n^3), for reference
     def three_sum_naive(self, nums: list[int]) -> set[tuple[int]]:
