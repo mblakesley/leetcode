@@ -10,27 +10,12 @@ class ListNode:
 
 # https://leetcode.com/problems/merge-two-sorted-lists/
 class Solution:
+    # Recursive - 90th percentile
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-        node1, node2 = list1, list2
-        if not node1 and not node2:
-            return None
-
-        head3 = node3 = ListNode()
-        while node1 and node2:
-            if node1.val < node2.val:
-                node3.val = node1.val
-                node1 = node1.next
-            else:
-                node3.val = node2.val
-                node2 = node2.next
-            node3.next = ListNode()
-            node3 = node3.next
-
-        if not node1:
-            node3.val = node2.val
-            node3.next = node2.next
-        elif not node2:
-            node3.val = node1.val
-            node3.next = node1.next
-
-        return head3
+        if not list1 or not list2:
+            return list1 or list2
+        if list1.val > list2.val:
+            list1, list2 = list2, list1
+        list3 = ListNode(list1.val)
+        list3.next = self.mergeTwoLists(list1.next, list2)
+        return list3
