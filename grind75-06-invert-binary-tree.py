@@ -12,11 +12,8 @@ class TreeNode:
 # https://leetcode.com/problems/invert-binary-tree
 class Solution:
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        if not root:
-            return root
-        if root.left:
+        if root:
+            root.left, root.right = root.right, root.left
             self.invertTree(root.left)
-        if root.right:
             self.invertTree(root.right)
-        root.left, root.right = root.right, root.left
         return root
