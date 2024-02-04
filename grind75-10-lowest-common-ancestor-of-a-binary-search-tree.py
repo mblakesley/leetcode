@@ -8,13 +8,9 @@ class TreeNode:
 
 # https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/
 class Solution:
-    # answer simplicity courtesy of Richard
     def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
-        current_lca: TreeNode = root
-        while True:
-            if current_lca.val > p.val and current_lca.val > q.val:
-                current_lca = current_lca.left
-            elif current_lca.val < p.val and current_lca.val < q.val:
-                current_lca = current_lca.right
-            else:
-                return current_lca
+        if p.val < root.val and q.val < root.val:
+            return self.lowestCommonAncestor(root.left, p, q)
+        if p.val > root.val and q.val > root.val:
+            return self.lowestCommonAncestor(root.right, p, q)
+        return root
