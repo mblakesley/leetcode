@@ -10,7 +10,7 @@ class ListNode:
 
 # https://leetcode.com/problems/linked-list-cycle/
 class Solution:
-    # O(n) time, O(1) space using classic hare & tortoise strategy
+    # O(n) time, O(1) space using classic two pointer (tortoise & hare) strategy
     # 80th percentile
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         tortoise, hair = head, head
