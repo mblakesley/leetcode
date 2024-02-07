@@ -12,15 +12,11 @@ class TreeNode:
 # https://leetcode.com/problems/diameter-of-binary-tree/
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        return self.measure_branches(root)[1]
+        return self.diameter_depth(root)[0]
 
-    def measure_branches(self, node: Optional[TreeNode]) -> tuple[int, int]:
-        """Given tree starting at $node, return [max height, max diameter]"""
-        lh = ld = rh = rd = 0
-        if node.left:
-            lh, ld = self.measure_branches(node.left)
-            lh += 1
-        if node.right:
-            rh, rd = self.measure_branches(node.right)
-            rh += 1
-        return max(lh, rh), max(ld, rd, lh + rh)
+    def diameter_depth(self, node: Optional[TreeNode]) -> tuple[int, int]:
+        if not node:
+            return 0, 0
+        l_diameter, l_depth = self.diameter_depth(node.left)
+        r_diameter, r_depth = self.diameter_depth(node.right)
+        return max(l_diameter, r_diameter, l_depth + r_depth), max(l_depth, r_depth) + 1
