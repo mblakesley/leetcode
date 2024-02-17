@@ -1,22 +1,22 @@
 # https://leetcode.com/problems/01-matrix/
 class Solution:
-    # rather pleased with myself at this solution (me from the future: 'cuz I stumbled upon dynamic programming!)
+    # Technically just BFS, not also DP, but IMO they seem similar in this problem
     def updateMatrix(self, mat: list[list[int]]) -> list[list[int]]:
-        cell_queue = []
-        remaining = set()  # normally this would hurt on speed, but here, we have to scan the matrix anyway
-        for i in range(len(mat)):
-            for j in range(len(mat[i])):
-                if not mat[i][j]:
-                    cell_queue.append((i, j))
+        from collections import deque  # Only 'cuz python lacks a built-in queue
+        cell_queue = deque()
+        remaining = set()
+        for r, row in enumerate(mat):
+            for c, cell in enumerate(row):
+                if not cell:
+                    cell_queue.append((r, c))
                 else:
-                    remaining.add((i, j))
-
-        while cell_queue:  # BFS
-            i, j = cell_queue.pop(0)
-            val = mat[i][j]
-            for x, y in ((i+1, j), (i, j+1), (i-1, j), (i, j-1)):
-                if (x, y) in remaining:
-                    mat[x][y] = val + 1
-                    cell_queue.append((x, y))
-                    remaining.discard((x, y))
+                    remaining.add((r, c))
+        while cell_queue:
+            r, c = cell_queue.popleft()
+            next_val = mat[r][c] + 1
+            for nr, nc in ((r+1, c), (r, c+1), (r-1, c), (r, c-1)):
+                if (nr, nc) in remaining:
+                    mat[nr][nc] = next_val
+                    cell_queue.append((nr, nc))
+                    remaining.remove((nr, nc))
         return mat
