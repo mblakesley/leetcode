@@ -10,11 +10,11 @@ class ListNode:
 
 # https://leetcode.com/problems/reverse-linked-list/
 class Solution:
-    # constructive version
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        rev_prev = None
-        while head:
-            rev_head = ListNode(val=head.val, next=rev_prev)
-            head = head.next
-            rev_prev = rev_head
-        return rev_prev
+        prev, curr = None, head
+        while curr:
+            # Can be done in one line, but IMO modifying curr AND curr.next simultaneously is asking for trouble
+            next_ = curr.next
+            curr.next = prev
+            prev, curr = curr, next_
+        return prev
