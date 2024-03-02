@@ -10,35 +10,13 @@ class TreeNode:
 
 # https://leetcode.com/problems/validate-binary-search-tree/
 class Solution:
-    # Iterative, i.e., the preferred way
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        node_stack: list[tuple] = [(root, None, None)]  # tuples of (node, node min, node max)
-        while node_stack:
-            node, n_min, n_max = node_stack.pop()  # DFS
-            if n_min is not None and node.val <= n_min:
-                return False
-            if n_max is not None and node.val >= n_max:
-                return False
+        return self.is_valid_bst(root, -float('inf'), float('inf'))
 
-            if node.left:
-                node_stack.append((node.left, n_min, node.val))
-            if node.right:
-                node_stack.append((node.right, node.val, n_max))
-        return True
-
-
-    # Recursive version, which was easier to think thru at first
-    def is_valid_bst_recursive(self, root: Optional[TreeNode]) -> bool:
-        return self.is_valid_bst(root)
-
-    def is_valid_bst(self, root: Optional[TreeNode], r_min: Optional[int] = None, r_max: Optional[int] = None) -> bool:
-        if not root:
+    def is_valid_bst(self, node: Optional[TreeNode], v_min: float, v_max: float) -> bool:
+        if not node:
             return True
-        if r_min is not None and root.val <= r_min:
+        if not v_min < node.val < v_max:
             return False
-        if r_max is not None and root.val >= r_max:
-            return False
-
-        left = self.is_valid_bst(root.left, r_min, root.val)
-        right = self.is_valid_bst(root.right, root.val, r_max)
-        return left and right
+        return self.is_valid_bst(node.left, v_min, node.val) and self.is_valid_bst(node.right, node.val, v_max)
+        # Note: This long line has a purpose: short-circuit logic. Breaking it up for clarity makes it less efficient.
