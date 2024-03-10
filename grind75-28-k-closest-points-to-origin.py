@@ -17,6 +17,7 @@ class Solution:
                 heapq.heapreplace(heap, (sum_, x, y))
         return [[x, y] for _, x, y in heap]
 
-    # O(k * n), more naive 1-liner, before I learned about heaps
+    # O(n log n) Mega naive 1-liner that's surprisingly performant, at least on leetcode's dataset
+    # As in, it's MUCH more performant than writing out a naive implementation of a heap.
     def kClosest_kn(self, points: list[list[int]], k: int) -> list[list[int]]:
         return sorted(points, key=lambda xy: xy[0]**2 + xy[1]**2)[:k]
