@@ -1,15 +1,13 @@
 # https://leetcode.com/problems/valid-anagram
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        return analyze_ltr_dist(s) == analyze_ltr_dist(t)
+        return count_letters(s) == count_letters(t)
 
 
-def analyze_ltr_dist(s: str) -> dict[str, int]:
+def count_letters(s: str) -> dict[str, int]:
     """Given a string, return a dict of its letter distribution"""
-    ltr_dist: dict[str, int] = {}
+    ltr_counts = {}
     for char in s:
-        if char in ltr_dist:
-            ltr_dist[char] += 1
-        else:
-            ltr_dist[char] = 1
-    return ltr_dist
+        count = ltr_counts.get(char, 0)
+        ltr_counts[char] = count + 1
+    return ltr_counts
