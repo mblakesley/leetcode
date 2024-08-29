@@ -5,18 +5,18 @@ class MinStack:
 
     def __init__(self):
         self.stack = []
-        self.min_stack = []  # but, like, a stack of mins, not a MinStack
+        self.min_stack = []  # dupes included
 
-    def push(self, n: int) -> None:
-        self.stack.append(n)
-        if not self.min_stack or n <= self.min_stack[-1]:
-            self.min_stack.append(n)
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        if not self.min_stack or val <= self.min_stack[-1]:
+            self.min_stack.append(val)
 
     def pop(self) -> int:
-        n = self.stack.pop()
-        if self.min_stack and n == self.min_stack[-1]:
+        val = self.stack.pop()
+        if val == self.min_stack[-1]:
             self.min_stack.pop()
-        return n
+        return val
 
     def top(self) -> int:
         return self.stack[-1]
