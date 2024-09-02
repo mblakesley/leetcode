@@ -1,24 +1,25 @@
-from math import factorial
-
-
 # https://leetcode.com/problems/climbing-stairs/
 class Solution:
+    # Tabulation
     def climbStairs(self, n: int) -> int:
-        sml_step = 1
-        big_step = 2
-        max_big = n // big_step
+        ways = {1:1, 2:2}
+        for steps in range(3, n+1):
+            ways[steps] = ways[steps-2] + ways[steps-1]
+        return ways[n]
 
-        combo_list = []
-        big_count = 0
-        while big_count <= max_big:
-            leftover = n - big_count * big_step
-            sml_count, r = divmod(leftover, sml_step)
-            if not r:
-                combo_list += [(sml_count, big_count)]
-            big_count += 1
+    # Running tabulation - most efficient
+    def climbStairs(self, n: int) -> int:
+        lower, higher = 1, 1
+        for _ in range(n-1):
+            lower, higher = higher, lower + higher
+        return higher
 
-        ways = 0
-        for x, y in combo_list:
-            # I'm sure there's a better way, I just don't care right now
-            ways += factorial(x+y) // (factorial(x) * factorial(y))
-        return ways
+    # Memoization
+    def climbStairs(self, n: int) -> int:
+        self.ways = {1: 1, 2: 2}
+        return self.climb_stairs(n)
+
+    def climb_stairs(self, n: int) -> int:
+        if n not in self.ways:
+            self.ways[n] = self.climb_stairs(n-2) + self.climb_stairs(n-1)
+        return self.ways[n]
