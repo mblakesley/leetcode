@@ -1,10 +1,12 @@
 # https://leetcode.com/problems/two-sum
 class Solution:
-    # O(n) solution using dicts - 80th percentile
+    # Time complexity: O(n)
+    # Space complexity: O(n)
     def twoSum(self, nums: list[int], target: int) -> list[int]:
-        comp_index_map = {}  # {complement: index}
+        seen_index_map = {}  # {num: index}
         for i, num in enumerate(nums):
-            if num in comp_index_map:
-                return [comp_index_map[num], i]
-            comp_index_map[target - num] = i
+            complement = target - num
+            if complement in seen_index_map:
+                return [seen_index_map[complement], i]
+            seen_index_map[num] = i
         return []
