@@ -1,5 +1,7 @@
 # https://leetcode.com/problems/valid-parentheses/
 class Solution:
+    # Time complexity: O(n)
+    # Space complexity: O(n)
     def isValid(self, s: str) -> bool:
         PAREN_MAP = { '(': ')', '[': ']', '{': '}' }
         open_paren_stack = []
