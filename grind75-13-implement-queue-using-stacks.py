@@ -1,5 +1,5 @@
 # https://leetcode.com/problems/implement-queue-using-stacks/
-# This Stack class is only described in the problem, but I explicitly wrote it out, just so we're all clear
+# I explicitly wrote out a Stack class to keep me honest
 class Stack:
     stack: list[int]
 
@@ -24,25 +24,25 @@ class Stack:
 
 class MyQueue:
     def __init__(self):
-        self.push_stack = Stack()
-        self.pop_stack = Stack()
+        self.forwards_stack = Stack()
+        self.backwards_stack = Stack()
 
     def push(self, x: int) -> None:
-        self.push_stack.push(x)
+        self.forwards_stack.push(x)
 
     def pop(self) -> int:
         self._flip_if_needed()
-        return self.pop_stack.pop()
+        return self.backwards_stack.pop()
 
     def peek(self) -> int:
         self._flip_if_needed()
-        return self.pop_stack.peek()
+        return self.backwards_stack.peek()
 
     def empty(self) -> bool:
-        return self.push_stack.is_empty() and self.pop_stack.is_empty()
+        return self.forwards_stack.is_empty() and self.backwards_stack.is_empty()
 
-    # This is the trick! Only flip one way, and only when needed.
+    # This is the trick! Only flip when needed!
     def _flip_if_needed(self):
-        if self.pop_stack.is_empty():
-            while not self.push_stack.is_empty():
-                self.pop_stack.push(self.push_stack.pop())
+        if self.backwards_stack.is_empty():
+            while not self.forwards_stack.is_empty():
+                self.backwards_stack.push(self.forwards_stack.pop())
