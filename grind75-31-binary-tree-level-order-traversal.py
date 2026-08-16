@@ -1,25 +1,27 @@
 from typing import Optional
 
-
-# Definition for a binary tree node.
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
         self.left = left
         self.right = right
 
-
 # https://leetcode.com/problems/binary-tree-level-order-traversal/
 class Solution:
+    # Time complexity: O(n)
+    # Aux space complexity: O(n)
     def levelOrder(self, root: Optional[TreeNode]) -> list[list[int]]:
-        lot = []  # level order traversal
-        now_q, next_q = [root], []
-        while now_q:
-            level = []
-            for node in now_q:  # sneaky BFS that only works with the two-list-swap pattern
+        next_ = [root] if root else []
+        node_vals: list[list[int]] = []
+        while next_:
+            curr, next_ = next_, []
+            node_row = []
+            for node in curr:
                 if node:
-                    level.append(node.val)
-                    next_q.extend([node.left, node.right])
-            lot.append(level)
-            now_q, next_q = next_q, []
-        return lot[:-1]  # remove the last level since it'll always be empty
+                    node_row.append(node.val)
+                    if node.left:
+                        next_.append(node.left)
+                    if node.right:
+                        next_.append(node.right)
+            node_vals.append(node_row)
+        return node_vals
